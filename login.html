@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Login | University Student Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .login-body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 10%, #1e293b 0%, #0f172a 100%);
+      padding: 24px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+      padding: 40px;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .login-logo {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, var(--primary-600), #6366f1);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.35);
+    }
+
+    .login-header h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--navy-900);
+      letter-spacing: -0.02em;
+    }
+
+    .login-header p {
+      font-size: 0.88rem;
+      color: var(--navy-500);
+      margin-top: 4px;
+    }
+
+    .demo-credentials-card {
+      background-color: var(--primary-50);
+      border: 1px solid var(--primary-200);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: var(--primary-800);
+    }
+
+    .demo-btn-autofill {
+      background-color: var(--primary-600);
+      color: var(--white);
+      border: none;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .demo-btn-autofill:hover {
+      background-color: var(--primary-700);
+    }
+
+    .error-alert-banner {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--danger-50);
+      border: 1px solid var(--danger-border);
+      color: var(--danger-600);
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      margin-bottom: 20px;
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--navy-400);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .password-toggle-btn:hover {
+      color: var(--navy-700);
+    }
+
+    .btn-submit-login {
+      width: 100%;
+      padding: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.78rem;
+      color: var(--navy-400);
+      border-top: 1px solid var(--navy-200);
+      padding-top: 18px;
+    }
+  </style>
+</head>
+<body class="login-body">
+
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">
+        <i data-lucide="graduation-cap" style="width: 32px; height: 32px;"></i>
+      </div>
+      <h2>University Admin Portal</h2>
+      <p>Enter administrative credentials to sign in</p>
+    </div>
+
+    <!-- Demo Credential Autofill Pill -->
+    <div class="demo-credentials-card">
+      <div>
+        <strong>Default Admin:</strong> admin@university.edu<br>
+        <strong>Password:</strong> Admin@123
+      </div>
+      <button type="button" class="demo-btn-autofill" id="btn-autofill">
+        Fill Demo
+      </button>
+    </div>
+
+    <!-- Error Alert Box -->
+    <div class="error-alert-banner" id="login-error-alert">
+      <i data-lucide="alert-circle" style="width: 18px; height: 18px; flex-shrink: 0;"></i>
+      <span id="login-error-text">Invalid email or password</span>
+    </div>
+
+    <form id="login-form">
+      <div class="form-group" style="margin-bottom: 18px;">
+        <label class="form-label" for="login-email">Email Address <span class="req">*</span></label>
+        <div style="position: relative;">
+          <input 
+            type="email" 
+            id="login-email" 
+            class="form-control" 
+            placeholder="admin@university.edu" 
+            required 
+            autocomplete="email"
+            autofocus
+          >
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label class="form-label" for="login-password">Password <span class="req">*</span></label>
+        </div>
+        <div class="password-wrapper">
+          <input 
+            type="password" 
+            id="login-password" 
+            class="form-control" 
+            placeholder="••••••••••••" 
+            required 
+            autocomplete="current-password"
+            style="padding-right: 42px;"
+          >
+          <button type="button" class="password-toggle-btn" id="btn-toggle-pwd" title="Show/Hide Password">
+            <i data-lucide="eye" id="pwd-icon" style="width: 18px; height: 18px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-submit-login" id="btn-login-submit">
+        <span>Sign In to Dashboard</span>
+        <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      Student Management System &bull; Secure Session Authentication
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+
+    const loginForm = document.getElementById('login-form');
+    const emailInput = document.getElementById('login-email');
+    const passwordInput = document.getElementById('login-password');
+    const submitBtn = document.getElementById('btn-login-submit');
+    const errorAlert = document.getElementById('login-error-alert');
+    const errorText = document.getElementById('login-error-text');
+    const togglePwdBtn = document.getElementById('btn-toggle-pwd');
+    const autofillBtn = document.getElementById('btn-autofill');
+
+    // Demo autofill
+    autofillBtn.addEventListener('click', () => {
+      emailInput.value = 'admin@university.edu';
+      passwordInput.value = 'Admin@123';
+      emailInput.focus();
+    });
+
+    // Password visibility toggle
+    let pwdVisible = false;
+    togglePwdBtn.addEventListener('click', () => {
+      pwdVisible = !pwdVisible;
+      passwordInput.type = pwdVisible ? 'text' : 'password';
+      const icon = document.getElementById('pwd-icon');
+      icon.setAttribute('data-lucide', pwdVisible ? 'eye-off' : 'eye');
+      lucide.createIcons();
+    });
+
+    // Check if already authenticated
+    (async () => {
+      try {
+        const res = await fetch('/api/auth/me', { credentials: 'include' });
+        const data = await res.json();
+        if (data && data.success && data.user) {
+          window.location.href = '/index.html';
+        }
+      } catch (e) {
+        // Not authenticated, stay on login page
+      }
+    })();
+
+    // Handle Login submission
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorAlert.style.display = 'none';
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        errorAlert.style.display = 'flex';
+        errorText.textContent = 'Please enter both email and password.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <div class="spinner" style="width: 18px; height: 18px; border-width: 2px;"></div>
+        <span>Signing In...</span>
+      `;
+
+      try {
+        const result = await API.post('/auth/login', { email, password });
+        if (result && result.success) {
+          showToast('Welcome back! Redirecting...', 'success');
+          setTimeout(() => {
+            window.location.href = '/index.html';
+          }, 400);
+        } else {
+          throw new Error(result.message || 'Login failed.');
+        }
+      } catch (err) {
+        errorAlert.style.display = 'flex';
+        errorText.textContent = err.message || 'Invalid email or password.';
+        lucide.createIcons();
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `
+          <span>Sign In to Dashboard</span>
+          <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+        `;
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
